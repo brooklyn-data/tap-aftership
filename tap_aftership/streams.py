@@ -59,7 +59,7 @@ class TrackingsStream(aftershipStream):
         th.Property("subtag_message", th.StringType),
         th.Property("title", th.StringType),
         th.Property("tracked_count", th.IntegerType),
-        th.Property("last_mile_tracking_supported", th.AnyType),
+        th.Property("last_mile_tracking_supported", th.BooleanType),
         th.Property("language", th.StringType),
         th.Property("unique_token", th.StringType),
         th.Property("checkpoints", th.ArrayType(th.ObjectType(
