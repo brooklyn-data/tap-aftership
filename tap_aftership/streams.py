@@ -31,7 +31,9 @@ class TrackingsStream(aftershipStream):
         th.Property("slug", th.StringType),
         th.Property("active", th.BooleanType),
         th.Property("android", th.ArrayType(th.StringType)),
-        th.Property("custom_fields", th.ObjectType()),
+        th.Property("custom_fields", th.ObjectType(
+            th.Property("item_names", th.StringType),
+        )),
         th.Property("customer_name", th.StringType),
         th.Property("destination_country_iso3", th.StringType),
         th.Property("courier_destination_country_iso3", th.StringType),
