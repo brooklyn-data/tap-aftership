@@ -1,0 +1,31 @@
+version: 1
+send_anonymous_usage_stats: true
+project_id: "tap-aftership"
+default_environment: test
+environments:
+- name: test
+plugins:
+  extractors:
+  - name: "tap-aftership"
+    namespace: "tap_aftership"
+    pip_url: -e .
+    capabilities:
+    - state
+    - catalog
+    - discover
+    - about
+    - stream-maps
+    config:
+      start_date: '2024-01-17T00:00:00Z'
+      api_key: "$API_KEY"
+    settings:
+    - name: api_key
+      kind: password
+    - name: api_version
+      kind: string
+    - name: start_date
+      kind: string
+  loaders:
+  - name: target-jsonl
+    variant: andyh1203
+    pip_url: target-jsonl
