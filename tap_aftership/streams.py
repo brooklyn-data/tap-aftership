@@ -24,8 +24,8 @@ class TrackingsStream(aftershipStream):
     replication_key = "updated_at"
     schema = th.PropertiesList(
         th.Property("id", th.StringType),
-        th.Property("created_at", th.DateTimeType),
         th.Property("updated_at", th.DateTimeType),
+        th.Property("created_at", th.DateTimeType),
         th.Property("last_updated_at", th.DateTimeType),
         th.Property("tracking_number", th.StringType),
         th.Property("slug", th.StringType),
@@ -63,25 +63,22 @@ class TrackingsStream(aftershipStream):
         th.Property("language", th.StringType),
         th.Property("unique_token", th.StringType),
         th.Property("checkpoints", th.ArrayType(th.ObjectType(
-            th.Property("checkpoint_time", th.DateTimeType),
-            th.Property("city", th.StringType),
-            th.Property("coordinates", th.ArrayType(th.StringType)),
-            th.Property("country_iso3", th.StringType),
-            th.Property("country_name", th.StringType),
-            th.Property("created_at", th.DateTimeType),
-            th.Property("events", th.ArrayType(th.ObjectType(
-                th.Property("code", th.StringType),
-                th.Property("reason", th.AnyType),
-            ))),
-            th.Property("location", th.StringType),
-            th.Property("message", th.StringType),
-            th.Property("raw_tag", th.StringType),
             th.Property("slug", th.StringType),
-            th.Property("state", th.StringType),
+            th.Property("city", th.StringType),
+            th.Property("created_at", th.DateTimeType),
+            th.Property("location", th.StringType),
+            th.Property("country_name", th.StringType),
+            th.Property("message", th.StringType),
+            th.Property("country_iso3", th.StringType),
+            th.Property("tag", th.StringType),
             th.Property("subtag", th.StringType),
             th.Property("subtag_message", th.StringType),
-            th.Property("tag", th.StringType),
+            th.Property("checkpoint_time", th.DateTimeType),
+            th.Property("coordinates", th.ArrayType(th.StringType)),
+            th.Property("state", th.StringType),
             th.Property("zip", th.StringType),
+            th.Property("raw_tag", th.StringType),
+            th.Property("events", th.ArrayType(th.StringType)),
         ))),
         th.Property("subscribed_smses", th.ArrayType(th.StringType)),
         th.Property("subscribed_emails", th.ArrayType(th.StringType)),
@@ -98,19 +95,28 @@ class TrackingsStream(aftershipStream):
         th.Property("aftership_estimated_delivery_date", th.DateTimeType),
         th.Property("destination_raw_location", th.StringType),
         th.Property("latest_estimated_delivery", th.ObjectType(
-                th.Property("date", th.StringType),
-                th.Property("datetime_max", th.DateTimeType),
-                th.Property("datetime_min", th.DateTimeType),
+                th.Property("type", th.StringType),
                 th.Property("source", th.StringType),
-                th.Property("specific", th.StringType)
+                th.Property("datetime", th.StringType),
+                th.Property("datetime_min", th.StringType),
+                th.Property("datetime_max", th.StringType)
+
         )),
-        th.Property("courier_connection_id", th.AnyType),
-        th.Property("latest_estimated_delivery", th.ObjectType(
-                th.Property("date", th.StringType),
-                th.Property("datetime_max", th.DateTimeType),
-                th.Property("datetime_min", th.DateTimeType),
+        th.Property("first_estimated_delivery", th.ObjectType(
+                th.Property("type", th.StringType),
                 th.Property("source", th.StringType),
-                th.Property("specific", th.StringType)
+                th.Property("datetime", th.StringType),
+                th.Property("datetime_min", th.StringType),
+                th.Property("datetime_max", th.StringType)
+
+        )),
+        th.Property("courier_connection_id", th.StringType),
+        th.Property("latest_estimated_delivery", th.ObjectType(
+                th.Property("type", th.StringType),
+                th.Property("source", th.StringType),
+                th.Property("datetime", th.StringType),
+                th.Property("datetime_min", th.StringType),
+                th.Property("datetime_max", th.StringType)
         )),        
         th.Property("custom_estimated_delivery_date", th.DateTimeType),
         th.Property("origin_state", th.StringType),
@@ -123,11 +129,14 @@ class TrackingsStream(aftershipStream):
         th.Property("shipment_tags", th.ArrayType(th.StringType)),
         th.Property("next_couriers", th.ArrayType(th.ObjectType(
             th.Property("slug", th.StringType),
-            th.Property("source", th.StringType),
-            th.Property("tracking_number", th.StringType)
+            th.Property("tracking_number", th.StringType),
+            th.Property("source", th.StringType)
         ))),
-        th.Property("transit_time", th.AnyType),
-        th.Property("carbon_emissions", th.AnyType),
+        th.Property("transit_time", th.IntegerType),
+        th.Property("carbon_emissions", th.ObjectType(
+            th.Property("value", th.NumberType),
+            th.Property("unit", th.StringType),
+        )),
         th.Property("shipping_method", th.StringType),
         th.Property("location_id", th.StringType),
         th.Property("on_time_status", th.StringType),
