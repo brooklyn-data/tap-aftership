@@ -125,7 +125,7 @@ class aftershipStream(RESTStream):
 
         if row.get("shipment_pickup_date", ""):
             try:
-                result = datetime.strptime(date, "%Y-%m-%d").strftime("%Y-%m-%d %H:%M:%S")
+                result = datetime.strptime(row["shipment_pickup_date"], "%Y-%m-%d").strftime("%Y-%m-%dT%H:%M:%S")
                 row["shipment_pickup_date"] = result
             except:
                 row["shipment_pickup_date"] = row["shipment_pickup_date"]
