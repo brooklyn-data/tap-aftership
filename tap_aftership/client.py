@@ -108,6 +108,30 @@ class aftershipStream(RESTStream):
         """
         yield from extract_jsonpath(self.records_jsonpath, input=response.json())
 
+    def post_process(
+        self,
+        row: dict,
+        context: dict | None = None,  # noqa: ARG002
+    ) -> dict | None:
+        """As needed, append or transform raw data to match expected structure.
+
+        Args:
+            row: An individual record from the stream.
+            context: The stream context.
+
+        Returns:
+            The updated record dictionary, or ``None`` to skip the record.
+        """
+
+        if row.get("shipment_pickup_date", ""):
+            try:
+                result = datetime.strptime(date, "%Y-%m-%d").strftime("%Y-%m-%d %H:%M:%S")
+                row["shipment_pickup_date"] = result
+            except:
+                row["shipment_pickup_date"] = row["shipment_pickup_date"]
+
+        return row
+
 
     def backoff_max_tries(self) -> int:
         """The number of attempts before giving up when retrying requests.
