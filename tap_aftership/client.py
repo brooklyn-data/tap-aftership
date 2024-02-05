@@ -89,8 +89,11 @@ class aftershipStream(RESTStream):
         if self.replication_key:
             replication_key_value = self.get_starting_replication_key_value(context)
 
-            params["updated_at_min"] = datetime.strptime(replication_key_value, "%Y-%m-%dT%H:%M:%S%z") + timedelta(0,1)
-            
+            try:
+                params["updated_at_min"] = datetime.strptime(replication_key_value, "%Y-%m-%dT%H:%M:%S%z") + timedelta(0,1)
+            except:
+                params["updated_at_min"] = datetime.strptime(replication_key_value, "%Y-%m-%dT%H:%M:%S.%f%z") + timedelta(0,1)
+             
         else:
             params["updated_at_min"] = self.config.get("start_date")
 
